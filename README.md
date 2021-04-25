@@ -1,6 +1,6 @@
 # bitmap
 
-Read BMP images in Crystal
+Read BMP images in Crystal.
 
 ## Installation
 
