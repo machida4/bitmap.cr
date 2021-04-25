@@ -8,8 +8,8 @@ Read BMP images in Crystal.
 
    ```yaml
    dependencies:
-     bitmap:
-       github: your-github-user/bitmap
+     bitmap.cr:
+       github: machida4/bitmap.cr
    ```
 
 2. Run `shards install`
