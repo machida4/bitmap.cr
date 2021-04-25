@@ -3,22 +3,21 @@ module Bitmap
   VERSION = "0.1.0"
 
   class Bitmap
-    struct Pixel
-      property x, y, r, g, b
+    HEADER_SIZE = 54
 
-      def initialize(@x : UInt32, @y : UInt32, @r : UInt8, @g : UInt8, @b : UInt8)
-      end
+    getter width, height, total_pixels, pixels
+
+    def initialize(
+      @header : Bytes,
+      @width : UInt32,
+      @height : UInt32,
+      @byte_per_pixel : UInt8,
+      @total_pixels : UInt32,
+      @data : Bytes,
+      @pixels : Array(Array(Pixel))
+    )
     end
 
-    @header : Bytes
-    @width : UInt32
-    @height : UInt32
-    @byte_per_pixel : UInt8
-    @total_pixels : UInt32
-    @data : Bytes
-    @pixels : Array(Array(Pixel))
-
-    HEADER_SIZE = 54
 
     def initialize(filepath : String)
       abort "missing file: #{filepath}" if !File.file?(filepath)
@@ -43,12 +42,16 @@ module Bitmap
       create_pixels_from_data()
     end
 
+    def pixel(x : Int32, y : Int32)
+      @pixels[x][y]
+    end
+
     private def validate_header!
       if @header[0] != 0x42 || @header[1] != 0x4d
         abort "looks like it's not BMP file"
       end
       if IO::ByteFormat::LittleEndian.decode(UInt32, @header[46, 4]) != 0
-        abort "Not supports color palette yet."
+        abort "Not supported a color palette yet."
       end
     end
 
@@ -62,6 +65,18 @@ module Bitmap
           @pixels[x].unshift(Pixel.new(x: x, y: y, b: pix_data[0], g: pix_data[1], r: pix_data[2]))
         end
       end
+    end
+  end
+
+  struct Pixel
+    getter x, y
+    property r, g, b
+
+    def initialize(@x : UInt32, @y : UInt32, @r : UInt8, @g : UInt8, @b : UInt8)
+    end
+
+    def grayscale
+      @r * 0.3 + @g * 0.59 + @b * 0.11
     end
   end
 end
