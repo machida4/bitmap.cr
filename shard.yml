@@ -1,0 +1,9 @@
+name: bitmap
+version: 0.1.0
+
+authors:
+  - machida <machida@kmc.gr.jp>
+
+crystal: 1.0.0
+
+license: MIT
