@@ -1,6 +1,6 @@
 # bitmap
 
-TODO: Write a description here
+Read BMP images in Crystal
 
 ## Installation
 
@@ -36,4 +36,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [machida](https://github.com/your-github-user) - creator and maintainer
+- [machida](https://github.com/machida4) - creator and maintainer
